@@ -27,7 +27,7 @@ function sprite(ctx, img, x, y){
 }
 
 function draw(){
-    var canvas = document.getElementById('main')
+    var canvas = document.getElementById('main');
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
     var ctx = canvas.getContext('2d');
@@ -40,12 +40,12 @@ function draw(){
             fork.taken = true;
             canvas.style.cursor = 'none';
         }
-    })
+    });
     canvas.addEventListener('mousemove', function(ev){
         if (fork.taken){
             fork.move(ev.clientX, ev.clientY);
         }
-    })
+    });
     fork.move(100, 100);
     fork.draw();
     var anim = function(){
