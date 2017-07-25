@@ -1,11 +1,23 @@
-var forkImg = new Image();
-
 function init(){
-    forkImg.addEventListener('load', draw);
-    forkImg.src='fork.svg';
+    var gameData = [];
+    var images = [
+        'fork.svg',
+        ];
+    var count = 0;
+    var dataLoader = function(){
+        if (++count >= images.length){
+            draw(gameData);
+        }
+    }
+    images.forEach(function(item){
+        var datum = new Image();
+        gameData.push(datum);
+        datum.addEventListener('load', dataLoader);
+        datum.src = item;
+    });
 }
 
-function sprite(ctx, img, x, y){
+function clsSprite(ctx, img, x, y){
     this.ctx = ctx;
     this.img = img;
     if (x && y) {
@@ -26,12 +38,12 @@ function sprite(ctx, img, x, y){
     this.collision = (x, y) => x > this.x && x < this.x + this.img.naturalWidth && y > this.y && y < this.y + this.img.naturalHeight;
 }
 
-function draw(){
+function draw(gameData){
     var canvas = document.getElementById('main');
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
     var ctx = canvas.getContext('2d');
-    var fork = new sprite (ctx, forkImg, 0, 0);
+    var fork = new clsSprite (ctx, gameData[0], 0, 0);
     fork.taken = false;
     canvas.addEventListener('click', function(ev){
         if (!fork.taken && ev.clientX > fork.x && ev.clientX < fork.x + fork.img.naturalWidth
