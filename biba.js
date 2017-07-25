@@ -2,11 +2,12 @@ function init(){
     var gameData = [];
     var images = [
         'fork.svg',
+        'dumpling.svg',
         ];
     var count = 0;
     var dataLoader = function(){
         if (++count >= images.length){
-            draw(gameData);
+            gameStart(gameData);
         }
     }
     images.forEach(function(item){
@@ -38,19 +39,23 @@ function clsSprite(ctx, img, x, y){
     this.collision = (x, y) => x > this.x && x < this.x + this.img.naturalWidth && y > this.y && y < this.y + this.img.naturalHeight;
 }
 
-function draw(gameData){
+function gameStart(gameData){
     var canvas = document.getElementById('main');
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
     var ctx = canvas.getContext('2d');
+    var dumplings = [];
+    for (i = 0; i < 6; i++){
+        dumplings.push(new clsSprite (ctx, gameData[1], 300 + i * 100, 300));
+    }
     var fork = new clsSprite (ctx, gameData[0], 0, 0);
     fork.taken = false;
-    canvas.addEventListener('click', function(ev){
-        if (!fork.taken && ev.clientX > fork.x && ev.clientX < fork.x + fork.img.naturalWidth
-        && ev.clientY > fork.y && ev.clientY < fork.y + fork.img.naturalHeight)
+    canvas.addEventListener('click', function takeFork(ev){
+        if (fork.collision(ev.clientX, ev.clientY))
         {
             fork.taken = true;
             canvas.style.cursor = 'none';
+            canvas.removeEventListener('click', takeFork);
         }
     });
     canvas.addEventListener('mousemove', function(ev){
@@ -58,11 +63,13 @@ function draw(gameData){
             fork.move(ev.clientX, ev.clientY);
         }
     });
+    dumplings.forEach(function(d){d.draw()});
     fork.move(100, 100);
     fork.draw();
     var anim = function(){
         if (fork.taken){
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            dumplings.forEach(function(d){d.draw()});
             fork.draw();
         }
         window.requestAnimationFrame(anim);
