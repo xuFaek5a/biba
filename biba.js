@@ -10,6 +10,7 @@ function init(){
             gameStart(gameData);
         }
     }
+    // TODO for/in loop
     images.forEach(function(item){
         var datum = new Image();
         gameData.push(datum);
@@ -55,14 +56,29 @@ function gameStart(gameData){
         {
             fork.taken = true;
             canvas.style.cursor = 'none';
+            canvas.addEventListener('mousemove', function(ev){
+                // TODO fix high load here
+                fork.move(ev.clientX, ev.clientY);
+            });
             canvas.removeEventListener('click', takeFork);
+            canvas.addEventListener('click', takeDumpling);
         }
     });
-    canvas.addEventListener('mousemove', function(ev){
-        if (fork.taken){
-            fork.move(ev.clientX, ev.clientY);
+    function takeDumpling(ev){
+        var dumpling;
+        for (d in dumplings){
+            dumpling = dumplings[d];
+            if (dumpling.collision(ev.clientX, ev.clientY)){
+                canvas.removeEventListener('click', takeDumpling);
+                canvas.addEventListener('mousemove',
+                        function moveDumpling(ev){
+                            dumpling.move(ev.clientX, ev.clientY);
+                        }
+                );
+                break;
+            }
         }
-    });
+    };
     dumplings.forEach(function(d){d.draw()});
     fork.move(100, 100);
     fork.draw();
