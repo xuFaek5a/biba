@@ -45,6 +45,8 @@ function gameStart(gameData){
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
     var ctx = canvas.getContext('2d');
+    ctx.width  = window.innerWidth;
+    ctx.height = window.innerHeight;
     var dumplings = [];
     for (i = 0; i < 6; i++){
         dumplings.push(new clsSprite (ctx, gameData[1], 300 + i * 100, 300));
@@ -57,7 +59,6 @@ function gameStart(gameData){
             fork.taken = true;
             canvas.style.cursor = 'none';
             canvas.addEventListener('mousemove', function(ev){
-                // TODO fix high load here
                 fork.move(ev.clientX, ev.clientY);
             });
             canvas.removeEventListener('click', takeFork);
