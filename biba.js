@@ -3,6 +3,7 @@ function init(){
     var images = [
         'fork.svg',
         'dumpling.svg',
+        'mouth.svg',
         ];
     var count = 0;
     var dataLoader = function(){
@@ -47,12 +48,15 @@ function gameStart(gameData){
     var ctx = canvas.getContext('2d');
     ctx.width  = window.innerWidth;
     ctx.height = window.innerHeight;
+
     var dumplings = [];
     for (i = 0; i < 6; i++){
         dumplings.push(new clsSprite (ctx, gameData[1], 300 + i * 100, 300));
     }
     var fork = new clsSprite (ctx, gameData[0], 0, 0);
     fork.taken = false;
+    var mouth = new clsSprite (ctx, gameData[2], 0, 0);
+
     canvas.addEventListener('click', function takeFork(ev){
         if (fork.collision(ev.clientX, ev.clientY))
         {
@@ -66,6 +70,7 @@ function gameStart(gameData){
         }
     });
     function takeDumpling(ev){
+        if (dumplings.length == 0) {return};
         var dumpling;
         for (d in dumplings){
             dumpling = dumplings[d];
@@ -74,18 +79,33 @@ function gameStart(gameData){
                 canvas.addEventListener('mousemove',
                         function moveDumpling(ev){
                             dumpling.move(ev.clientX, ev.clientY);
+                            if (mouth.collision(ev.clientX, ev.clientY)){
+                                canvas.removeEventListener(
+                                    'mousemove',
+                                    moveDumpling
+                                );
+                                dumplings.splice(d, 1);
+                                canvas.addEventListener(
+                                    'click',
+                                    takeDumpling
+                                );
+                            }
                         }
                 );
                 break;
             }
         }
     };
+
     dumplings.forEach(function(d){d.draw()});
+    mouth.move(Math.floor(canvas.width / 2), Math.floor(canvas.height / 2));
+    mouth.draw();
     fork.move(100, 100);
     fork.draw();
     var anim = function(){
         if (fork.taken){
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            mouth.draw();
             dumplings.forEach(function(d){d.draw()});
             fork.draw();
         }

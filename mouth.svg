@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="200" height="150" id="Picture lang">
+  <rect width="100%" height="100%" fill="white">
+  </rect>
+  <g style="stroke:#000000;stroke-height:5.0;stroke-width:5.0;stroke-opacity:1.0;">
+    <line x1="0.0" x2="200.00" y1="50.0" y2="50.0">
+    </line>
+    <line x1="0.0" x2="200.00" y1="100.0" y2="100.0">
+    </line>
+
+    <line x1="0.0" x2="0.00" y1="0.0" y2="50.0">
+    </line>
+    <line x1="40.0" x2="40.00" y1="0.0" y2="50.0">
+    </line>
+    <line x1="80.0" x2="80.00" y1="0.0" y2="50.0">
+    </line>
+    <line x1="120.0" x2="120.00" y1="0.0" y2="50.0">
+    </line>
+    <line x1="160.0" x2="160.00" y1="0.0" y2="50.0">
+    </line>
+    <line x1="200.0" x2="200.00" y1="0.0" y2="50.0">
+    </line>
+
+    <line x1="0.0" x2="0.00" y1="100.0" y2="150.0">
+    </line>
+    <line x1="40.0" x2="40.00" y1="100.0" y2="150.0">
+    </line>
+    <line x1="80.0" x2="80.00" y1="100.0" y2="150.0">
+    </line>
+    <line x1="120.0" x2="120.00" y1="100.0" y2="150.0">
+    </line>
+    <line x1="160.0" x2="160.00" y1="100.0" y2="150.0">
+    </line>
+    <line x1="200.0" x2="200.00" y1="100.0" y2="150.0">
+    </line>
+  </g>
+</svg>
