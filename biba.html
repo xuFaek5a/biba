@@ -15,12 +15,40 @@
             canvas {
                 display: block;
             }
+            .center {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-right: -50%;
+                width: 300px;
+                transform: translate(-50%, -50%);
+            }
+            .frame {
+                background-color:#fff;
+                border: 1px solid;
+                padding: 10px;
+            }
+            .loader {
+                background-color:#f1f1f1;
+            }
+            .pbar {
+                width: 0%;
+                height: 1em;
+                box-sizing: inherit;
+                color: #fff;
+                background-color: #4CAF50
+            }
         </style>    
     </head>
     <body>
-    <!--<body background="back.jpg">-->
+        <!--<body background="back.jpg">-->
         <canvas id="main">
             Your browser dosent support canvas element
         </canvas>
+        <div id="pbarCont" class="center frame">
+            <div class="loader">
+                <div id="pbar" class="pbar"></div>
+            </div>
+        </div>
     </body>
 </html>

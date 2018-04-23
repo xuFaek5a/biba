@@ -1,23 +1,40 @@
-function init(){
-    var gameData = [];
+function init() {
+    var gameData = {};
     var images = [
-        'fork.svg',
-        'dumpling.svg',
-        'mouth.svg',
+        {path: 'fork.svg', name: 'fork'},
+        {path: 'dumpling.svg', name: 'dumpling'},
+        {path: 'mouth.svg', name: 'mouth'},
+        //{path: 'face.svg', name: 'face'},
+        //{path: 'body.svg', name: 'body'},
+        //{path: 'lhand.svg', name: 'lhand'},
+        //{path: 'rhand.svg', name: 'rhand'},
         ];
-    var count = 0;
-    var dataLoader = function(){
-        if (++count >= images.length){
-            gameStart(gameData);
-        }
-    }
-    // TODO for/in loop
-    images.forEach(function(item){
-        var datum = new Image();
-        gameData.push(datum);
-        datum.addEventListener('load', dataLoader);
-        datum.src = item;
+    var sounds = [];
+    var dataLoader = (function() {
+        var total = images.length + sounds.length;
+        var count = 0;
+        var loader = function() {
+            progressBar((100 * (++count / total)).toFixed())
+            if (count == total) {
+                gameStart(gameData);
+            }
+        };
+        return loader
+    })();
+    images.forEach(function(image) {
+        var img = new Image();
+        gameData[image.name] = {image: img};
+        img.addEventListener('load', dataLoader);
+        img.src = image.path;
     });
+}
+
+function progressBar(persent) {
+    var elem = document.getElementById("pbar");
+    elem.style.width = persent + '%';
+    if (persent >= 100) {
+        document.getElementById("pbarCont").hidden = true;
+    }
 }
 
 function clsSprite(ctx, img, x, y){
@@ -51,11 +68,11 @@ function gameStart(gameData){
 
     var dumplings = [];
     for (i = 0; i < 6; i++){
-        dumplings.push(new clsSprite (ctx, gameData[1], 300 + i * 100, 300));
+        dumplings.push(new clsSprite(ctx, gameData.dumpling.image, 300 + i * 100, 300));
     }
-    var fork = new clsSprite (ctx, gameData[0], 0, 0);
+    var fork = new clsSprite(ctx, gameData.fork.image, 0, 0);
     fork.taken = false;
-    var mouth = new clsSprite (ctx, gameData[2], 0, 0);
+    var mouth = new clsSprite(ctx, gameData.mouth.image, 0, 0);
 
     canvas.addEventListener('click', function takeFork(ev){
         if (fork.collision(ev.clientX, ev.clientY))
